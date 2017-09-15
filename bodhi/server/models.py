@@ -704,6 +704,11 @@ class Package(Base):
                 db.add(case)
                 db.flush()
 
+        for test in db.query(TestCase):
+            if test not in set(list_categorymembers(wiki, cat_page)):
+                db.delete(test)
+                db.flush()
+
         log.debug('Finished querying for test cases in %s', datetime.utcnow() - start)
 
     @validates('builds')
